@@ -13,11 +13,6 @@ static void writeMeList() {
   static u16 _b = 0;
   static u16 _d = 0;
   
-  // probably better to add a try lock here, see lock sample
-  // const bool refresh = meListRefresh;
-  // if (!refresh) {... meListRefresh = true;}
-  //
-  
   if (!meListRefresh) {
     Vertex* vertices = (Vertex*)meListGetMemory(sizeof(Vertex) * 2, true);
     
