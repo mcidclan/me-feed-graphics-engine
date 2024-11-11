@@ -10,7 +10,9 @@ PATHFILES = $(CPP_FILES) $(S_FILES)
 OBJS = $(notdir $(patsubst %.cpp, %.o, $(patsubst %.S, %.o, $(PATHFILES))))
 OBJS := $(sort $(OBJS:%.o=$(PATHOBJS)%.o))
 
-CFLAGS = -Ofast -G0 -Wall -fno-pic -I./kernel/src
+CFLAGS = -Ofast -G0 -Wall -fno-pic -I./kernel/src \
+         -Wextra -Werror
+
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti  -std=c++11
 ASFLAGS = $(CFLAGS)
 
