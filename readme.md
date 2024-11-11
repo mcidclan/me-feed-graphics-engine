@@ -1,5 +1,8 @@
-## MeGu Sample code
-A sample code writing Gu list from the Media Engine
+## Me/Gu Sample code
+A sample code writing Ge list from the Media Engine using Gu
+
+# Overview
+The main idea is to write/update a Ge list from the Media Engine and then signal its execution to the Graphics Engine using a small trigger on the main CPU.
 
 # Requirements
 ./build.sh from a bash
