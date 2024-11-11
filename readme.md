@@ -1,8 +1,9 @@
 ## Me/Gu Sample code
-A sample code writing Ge list from the Media Engine using Gu
+A sample code writing Ge list from the Media Engine using Gu and native Ge commands
 
 # Overview
-The main idea is to write/update a Ge list from the Media Engine and then signal its execution to the Graphics Engine using a small trigger on the main CPU.
+The main idea is to write/update a Ge list from the Media Engine and then signal its execution to the Graphics Engine using a small trigger on the main Cpu.
+This allows us to concurrently write drawing processes to be executed on the Graphics Engine by both the Media Engine and main Cpu.
 
 # Requirements
 ./build.sh from a bash

@@ -85,10 +85,10 @@ static inline void* meListGetMemory(const u32 size, const bool reset) { //
 static volatile bool meListRefresh = false;
 static inline u32* meListSwitch() {
   u32* const _meList = (u32*)meList;
-  // probably better to add a try lock here, see lock sample
-  // const bool refresh = meListRefresh;
-  // if (!refresh) {... meListRefresh = true;}
-  //
+  // a lock/try-lock could have been used here, see me-sample-lock.
+  // e.g., tryLock; const bool refresh = meListRefresh;
+  // if (!refresh) { ... meListRefresh = true; }
+  // unlock;
   if (meListRefresh) {
     static u32 offset = 0;
     offset ^= (((u32)MAX_LIST_MEMORY) >> 1);
