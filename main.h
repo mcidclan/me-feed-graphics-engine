@@ -45,7 +45,6 @@ static inline void meExit() {
 struct Vertex {
   u32 color;
   u16 x, y, z;
-  u16 pad;
 } __attribute__((aligned(4)));
 
 // me list & ge
@@ -86,6 +85,10 @@ static inline void* meListGetMemory(const u32 size, const bool reset) { //
 static volatile bool meListRefresh = false;
 static inline u32* meListSwitch() {
   u32* const _meList = (u32*)meList;
+  // probably better to add a try lock here, see lock sample
+  // const bool refresh = meListRefresh;
+  // if (!refresh) {... meListRefresh = true;}
+  //
   if (meListRefresh) {
     static u32 offset = 0;
     offset ^= (((u32)MAX_LIST_MEMORY) >> 1);

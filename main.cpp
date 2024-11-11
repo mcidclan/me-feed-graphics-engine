@@ -12,6 +12,12 @@ static void writeMeList() {
   static u16 _g = 0;
   static u16 _b = 0;
   static u16 _d = 0;
+  
+  // probably better to add a try lock here, see lock sample
+  // const bool refresh = meListRefresh;
+  // if (!refresh) {... meListRefresh = true;}
+  //
+  
   if (!meListRefresh) {
     Vertex* vertices = (Vertex*)meListGetMemory(sizeof(Vertex) * 2, true);
     
@@ -33,8 +39,8 @@ static void writeMeList() {
     asm("sync");
     
     cmdCursor = 0;
-    sendGeCommand(0xd4, (16 << 10) | 0);                                        // CMD_SCISSOR1
-    sendGeCommand(0xd5, ((SCR_HEIGHT - 16) << 10) | SCR_WIDTH);                 // CMD_SCISSOR2
+    sendGeCommand(0xd4, (20 << 10) | 0);                                        // CMD_SCISSOR1
+    sendGeCommand(0xd5, ((SCR_HEIGHT - 20) << 10) | SCR_WIDTH);                 // CMD_SCISSOR2
     sendGeCommand(0xd3, (0b101 << 8) | 0x01);                                   // CMD_CLEAR, clear before drawing just in case
     sendGeCommand(0x12, GU_COLOR_8888 | GU_VERTEX_16BIT | GU_TRANSFORM_2D);     // CMD_VTYPE
     sendGeCommand(0x01, ((u32)vertices) & 0xffffff);                            // CMD_VADR, vertex data addr
@@ -111,6 +117,8 @@ int main() {
   kcall(&meInit);
   meListWaitRefresh();
   
+  int dir = 1;
+  int move = 0;
   SceCtrlData ctl;
   do {
     sceGuStart(GU_DIRECT, mcList);
@@ -121,25 +129,28 @@ int main() {
     const u32* const list = meListSwitch();
     sceGuCallList(list);
     {
-      static int dir = 1;
-      static int move = 0;
+      Vertex* const vertices = (Vertex*)sceGuGetMemory(sizeof(Vertex) * 2);
       move += dir;
-      if(move > 32) {
+      if(move > 64) {
         dir = -1;
-      } else if(move < -32) {
+      } else if(move < -64) {
         dir = 1;
       }
-      Vertex vertices[] = {
-        {0, (u16)(176+move), 72, 0, 0},
-        {0xFF0000FF, (u16)(128+176+move), 128+72, 0, 0},
-      };
+      vertices[0].color = 0;
+      vertices[0].x = 176 + move;
+      vertices[0].y = 72;
+      vertices[0].z = 0;
+      vertices[1].color = 0xFF0000FF;
+      vertices[1].x = 128 + 176 + move;
+      vertices[1].y = 128 + 72;
+      vertices[1].z = 0;
       sceGuDrawArray(GU_SPRITES, GU_COLOR_8888 | GU_VERTEX_16BIT | GU_TRANSFORM_2D, 2, nullptr, vertices);
     }
     sceGuFinish();
     sceGuSync(0,0);
-    sceKernelDcacheWritebackInvalidateAll();
     sceDisplayWaitVblankStart();
     sceGuSwapBuffers();
+    sceKernelDcacheWritebackInvalidateAll();
   } while(!(ctl.Buttons & PSP_CTRL_HOME));
   
   meExit();
