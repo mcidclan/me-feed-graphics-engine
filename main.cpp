@@ -27,11 +27,9 @@ static void writeMeList() {
     _b >= 2 ? r < 0xfe ? r++ : r-- : r > 1 ? r-- : r++;
     meDCacheWritebackInvalidAll();
 
-    asm("sync");
     vertices[1].color = 0xFF000000 | b << 16 | g << 8 | r;
     vertices[1].x = 480;
     vertices[1].y = 272;
-    asm("sync");
     
     cmdCursor = 0;
     sendGeCommand(0xd4, (20 << 10) | 0);                                        // CMD_SCISSOR1
@@ -43,7 +41,6 @@ static void writeMeList() {
     sendGeCommand(0xd3, 0);                                                     // CMD_CLEAR
     sendGeCommand(0x0b, 0);                                                     // CMD_RET
     meListRefresh = true;
-    asm("sync");
   }
 }
 
