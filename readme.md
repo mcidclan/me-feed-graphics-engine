@@ -3,7 +3,8 @@ A sample code writing Ge list from the Media Engine using Gu and native Ge comma
 
 # Overview
 The main idea is to write/update a Ge list from the Media Engine and then signal its execution to the Graphics Engine using a small trigger on the main Cpu.
-This allows us to concurrently write drawing processes to be executed on the Graphics Engine by both the Media Engine and main Cpu.
+It uses a shared double list uncached with 0x40000000, ensuring that Ge can read from the range that has been filled, while allowing Me to write to the range that is not currently read.
+This allows us to concurrently write drawing processes to be executed on the Graphics Engine, from both Cpu.
 
 # Requirements
 ./build.sh from a bash
