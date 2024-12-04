@@ -11,6 +11,10 @@
 #include "kcall.h"
 #include "random.h"
 
+#define u8  unsigned char
+#define u16 unsigned short int
+#define u32 unsigned int
+
 #define nrp          u32*
 #define nrg(addr)    (*((nrp)(addr)))
 
