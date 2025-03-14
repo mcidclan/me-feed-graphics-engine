@@ -6,8 +6,10 @@ The main idea is to write/update a Ge list from the Media Engine and then signal
 It uses a shared double list uncached with 0x40000000, ensuring that Ge can read from the range that has been filled, while allowing Me to write to the range that is not currently read.
 This allows us to concurrently write drawing processes to be executed on the Graphics Engine, from both Cpu.
 
-# Requirements
-./build.sh from a bash
+# Building
+A) Run ./build.sh from a bash
+B) Via cmake and ninja: `cmake -Bbuild -G Ninja`, `cmake --build build`
+C) Via cmake and make: `cmake -Bbuild`, `cmake --build build`
 
 ## Special Thanks
 This sample code wouldn't have been possible without the resources from the PSP homebrew community, which served as valuable sources of knowledge.
