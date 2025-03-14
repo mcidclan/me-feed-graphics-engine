@@ -4,3 +4,4 @@
 **/**/*.elf
 **/**/*.SFO
 kcall.S
+build/*
