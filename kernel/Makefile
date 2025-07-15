@@ -1,19 +1,14 @@
 BINOUT = ./bin/
 PATHSRC = ./src/
+
 TARGET_NAME = kcall
 TARGET = $(BINOUT)$(TARGET_NAME)
 
 CC = psp-gcc
-LD = psp-gcc
-FIXUP = psp-fixup-imports
 
 PSPSDK = $(shell psp-config --pspsdk-path)
-PSPDEV = $(shell psp-config --pspdev-path)
-INCDIR = -I. -I$(PSPDEV)/psp/include -I$(PSPSDK)/include
-LIBDIR = -L. -L$(PSPDEV)/psp/lib -L$(PSPSDK)/lib
-
-CFLAGS = -fsingle-precision-constant -Ofast -G0 -Wall $(INCDIR)
-LDFLAGS = $(LIBDIR) -Wl,-q,-T$(PSPSDK)/lib/linkfile.prx -nostartfiles -Wl,-zmax-page-size=128
+CFLAGS = -fsingle-precision-constant -Ofast -G0 -Wall -I$(PSPSDK)/include
+LDFLAGS = -Wl,-q,-T$(PSPSDK)/lib/linkfile.prx -nostartfiles -Wl,-zmax-page-size=128
 
 release: all
 	psp-build-exports -s $(PATHSRC)exports.exp && \
@@ -30,7 +25,7 @@ FINAL_TARGET = $(TARGET).prx
 all: $(FINAL_TARGET)
 
 $(TARGET).elf: $(OBJS)
-	$(LD) $(LDFLAGS) $^ $(LIBS) -o $@ && $(FIXUP) $@ || ($(MAKE) handle_fixup_error)
+	$(CC) $(LDFLAGS) $^ -o $@
 
 %.prx: %.elf
 	psp-prxgen $< $@
@@ -40,10 +35,6 @@ $(BINOUT)%.o: $(PATHSRC)%.c
 
 %.c: %.exp
 	psp-build-exports -b $< > $@
-
-handle_fixup_error:
-	@echo "Error during fixup: no .lib.stub section found. Retrying..."
-	$(MAKE) all
 
 clean:
 	-rm -f $(FINAL_TARGET) $(TARGET).elf $(OBJS)

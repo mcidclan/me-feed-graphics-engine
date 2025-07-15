@@ -54,7 +54,6 @@ inline void meGetUncached32(volatile u32** const mem, const u32 size) {
     free(_base);
   }
   *mem = nullptr;
-  sceKernelDcacheWritebackInvalidateAll();
   return;
 }
 

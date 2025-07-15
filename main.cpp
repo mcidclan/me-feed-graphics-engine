@@ -61,9 +61,9 @@ extern char __start__me_section;
 extern char __stop__me_section;
 __attribute__((section("_me_section")))
 void meHandler() {
-  hw(0xbc100050) = 0x0f;        // enable clocks: ME + AW bus RegA & RegB (bits 0-2)
-  hw(0xbc100004) = 0xffffffff;  // Enable NMIs
   hw(0xbc100040) = 0x02;        // allow 64MB ram
+  hw(0xbc100050) = 0x06;        // enable clocks: AW bus RegA & RegB (bits 0-2)
+  hw(0xbc100004) = 0xffffffff;  // Enable NMIs
   asm("sync");
   
   asm volatile(

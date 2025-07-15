@@ -7,7 +7,9 @@ It uses a shared double list uncached with 0x40000000, ensuring that Ge can read
 This allows us to concurrently write drawing processes to be executed on the Graphics Engine, from both Cpu.
 
 # Requirements
-./build.sh from a bash
+```bash
+make clean; make;
+```
 
 ## Special Thanks
 This sample code wouldn't have been possible without the resources from the PSP homebrew community, which served as valuable sources of knowledge.
