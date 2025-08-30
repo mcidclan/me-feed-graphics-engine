@@ -14,6 +14,7 @@ release: all
 	psp-build-exports -s $(PATHSRC)exports.exp && \
 	mv $(TARGET_NAME).S ../ && \
 	mv bin/$(TARGET_NAME).prx ../bin
+	rm -f $(PATHSRC)exports.c
 
 C_FILES = $(shell ls $(PATHSRC)*.c)
 OBJS = $(notdir $(patsubst %.c, %.o, $(C_FILES)))
