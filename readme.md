@@ -16,6 +16,9 @@ This sample code wouldn't have been possible without the resources from the PSP 
 Thanks to **crazyc** from ps2dev.org, without whom the use of the Media Engine in the community would be far more difficult.
 Thanks to all developers and contributors who have kept the scene alive and to those who continue to do so.
 
+## Disclaimer
+This project and code are provided as-is without warranty. Users assume full responsibility for any implementation or consequences. Use at your own discretion and risk
+
 # resources:
 - [uofw on GitHub](https://github.com/uofw/uofw)
 - [psp wiki on PSDevWiki](https://www.psdevwiki.com/psp/)

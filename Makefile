@@ -3,13 +3,14 @@ PATHSRC = ./
 PATHOBJS = $(BINOUT)
 TARGET = $(BINOUT)megu
 
+BUILD_PRX = 1
 CPP_FILES = $(wildcard $(PATHSRC)*.cpp)
 PATHFILES = $(CPP_FILES) kcall.S
 
 OBJS = $(notdir $(patsubst %.cpp, %.o, $(patsubst %.S, %.o, $(PATHFILES))))
 OBJS := $(sort $(OBJS:%.o=$(PATHOBJS)%.o))
 
-CFLAGS = -Ofast -G0 -Wall -fno-pic -I./kernel/src \
+CFLAGS = -Os -G0 -Wall -fno-pic -I./kernel/src \
          -Wextra -Werror
 
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti  -std=c++11
